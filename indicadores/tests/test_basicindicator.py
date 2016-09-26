@@ -6,14 +6,13 @@ from ..TimeS import TimeSerie, TP, Barra, SerieEscalar
 class iMV(BasicIndicator):
     def doCalc(self, cursor):
         return self.serie[0].Value(cursor)
-    def doParams(self, params):
-        self.interval = params[0]
-        self.offset = 0
+    def doSpecific(self):
+        pass
 
 class iMV2(BasicIndicator):
     def doCalc(self, cursor):
         return self.serie[0].Value(cursor)
-    def doParams(self, params):
+    def doSpecific(self):
         pass
 
 def setUpModule():
@@ -30,6 +29,10 @@ class BasicIndicatorTest(unittest.TestCase):
             self.serie.appendValue(float(i+5))
 
     def test_falta_definir_doCalc(self):
+        with self.assertRaises(NotImplementedError):
+            ejemplo = BasicIndicator([self.serie,], 'EJEM')
+            
+    def test_falta_definir_doSpecific(self):
         with self.assertRaises(NotImplementedError):
             ejemplo = BasicIndicator([self.serie,], 'EJEM')
             
@@ -55,3 +58,9 @@ class BasicIndicatorTest(unittest.TestCase):
             
         self.assertEqual(
             self.mv.ToIndicator()['mv'], self.s)
+
+    def test_devolver_MinData(self):
+        self.mv = iMV([self.serie,], 'mv', (5,))
+
+        self.assertEqual(self.mv.MinData(), 5)
+        

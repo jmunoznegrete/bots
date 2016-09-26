@@ -21,12 +21,21 @@ class SerieEscalarTest(unittest.TestCase):
         self.serie = SerieEscalar(2)
     def test_creacion_de_serie_2_elementos_a_cero(self):
         self.assertEqual(str(self.serie), '[0.0, 0.0]')
+    def test_creacion_de_serie_con_lista_vacia(self):
+        s1 = SerieEscalar(0)
+        s2 = SerieEscalar([])
+        self.assertEqual(s1, s2)
     def test_creacion_de_anadir_un_elemento(self):
         self.serie.appendValue(1.3)
         self.assertEqual(str(self.serie), '[0.0, 0.0, 1.3]')
     def test_longitud_de_serie(self):
         self.serie.appendValue(1.3)
         self.assertEqual(self.serie.length(), 3)
+
+    ## test cases related to __eq__ function
+    def test_Almost_Equal_para_dos_SerieEscalar(self):
+        self.serie.appendValue(1.30000004)
+        self.assertEqual(self.serie, SerieEscalar([0.0, 0.0, 1.3]))
     def test_igualdad_series(self):
         self.s1 = SerieEscalar(0)
         self.s2 = SerieEscalar(0)
@@ -37,6 +46,13 @@ class SerieEscalarTest(unittest.TestCase):
         self.s2.appendValue(3)
         self.s2.appendValue(2)
         self.assertEqual(self.s1, self.s2)
+    def test_desigualdad_series(self):
+        self.s1 = SerieEscalar([1, 2, 3])
+        self.s2 = SerieEscalar([1, 2, ])
+        self.assertNotEqual(self.s1, self.s2)
+    def test_Not_Almost_Equal_para_dos_SerieEscalar(self):
+        self.serie.appendValue(1.304)
+        self.assertNotEqual(self.serie, SerieEscalar([0.0, 0.0, 1.3]))
 
 class TimeSerieTest(unittest.TestCase):
     def setUp(self):

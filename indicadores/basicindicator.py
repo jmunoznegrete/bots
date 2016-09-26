@@ -9,9 +9,11 @@ class BasicIndicator(object):
     def __init__(self, serie, label, params=(0,), offset=0):
         self.interval = params[0]
         self.offset = offset
-        self.doParams(params)
+        self.pending = True
+        self.NumMinData = 0
+        self.doParams(params, offset)
         self.serie = serie
-        self.lista = SerieEscalar(self.interval+self.offset)
+        self.lista = SerieEscalar(self.NumMinData)
         self.label = label
 
         self.update()
@@ -35,15 +37,25 @@ class BasicIndicator(object):
     def ToIndicator(self):
         return {self.label:self.lista}
 
-    def doParams(self, params):
-        ## further reviewof how to handle self.offset and 
+    def doParams(self, params, offset):
+        ## further review of how to handle self.offset and 
         ## self.interval is required
         ## It must be declared in any new indicator class derived from
         ## this
+        self.interval = params[0]
+        self.offset = offset
+        self.pending = True
+        self.NumMinData = self.interval + offset
+        self.doSpecific()
+
+    def doSpecific(self):
         raise NotImplementedError
 
+    
     def doCalc(self, cursor):
         raise NotImplementedError
 
+    def MinData(self):
+        return self.NumMinData
     def __str__(self):
         return str(self.lista)

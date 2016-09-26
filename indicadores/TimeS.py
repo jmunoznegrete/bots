@@ -65,9 +65,16 @@ class TimeSerie(object):
 
 class SerieEscalar(object):
     """ List of values initialized to a number of 0.0
+        If a List of float is provided the SerieEscalar is initialized
+        to taht value
         It is a general purpose List of scalars"""
-    def __init__(self, NumElemZero=0):
-        self.Serie=[0.0 for i in range(NumElemZero)]
+    def __init__(self, Elements=0):
+        if type(Elements) == int:
+            self.Serie=[0.0 for i in range(Elements)]
+        elif type(Elements) == list:
+            self.Serie=Elements[:]
+        else:
+             raise TypeError
     def Value(self, indice):
         return self.Serie[indice]
     def appendValue(self, valor):
@@ -78,8 +85,10 @@ class SerieEscalar(object):
         self.Serie[0] = valor
     def __eq__(self, s1):
         equal = True
+        if s1.length() != self.length():
+            return False
         for i in range(s1.length()):
-            if s1.Value(i) != self.Value(i):
+            if abs(s1.Value(i) -  self.Value(i))> 0.00001:
                 equal = False
                 break
         return equal
