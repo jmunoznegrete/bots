@@ -1,3 +1,5 @@
+ActualizaTick = 1
+
 from TimeS import SerieEscalar, TimeSerie, TP
 
 class BasicIndicator(object):
@@ -12,6 +14,7 @@ class BasicIndicator(object):
         self.pending = True
         self.NumMinData = 0
         self.doParams(params, offset)
+        self.doSpecific()
         self.serie = serie
         self.lista = SerieEscalar(self.NumMinData)
         self.label = label
@@ -25,14 +28,15 @@ class BasicIndicator(object):
         ## no data displacement in order to update its value under
         ## any tick arrival
 
-        PrimerDato = self.lista.length() 
+        PrimerDato = (self.lista.length() + 1) - self.serie[0].length()
         LimiteDato = self.serie[0].length()
                             
-        for cursor in range(PrimerDato, LimiteDato):
+        # cursor is to come along appended serie values
+        for cursor in range(PrimerDato, 1):
             self.lista.appendValue(self.doCalc(cursor))
 
         if self.serie[0].length() >= self.interval + self.offset:
-            self.lista.setCur(self.doCalc(0))
+            self.lista.setCur(self.doCalc(ActualizaTick))
 
     def ToIndicator(self):
         return {self.label:self.lista}
@@ -46,7 +50,6 @@ class BasicIndicator(object):
         self.offset = offset
         self.pending = True
         self.NumMinData = self.interval + offset
-        self.doSpecific()
 
     def doSpecific(self):
         raise NotImplementedError

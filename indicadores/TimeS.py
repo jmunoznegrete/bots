@@ -1,3 +1,10 @@
+class Tick(object):
+    def __init__(self, precio, volumen, tiempo, currencypair):
+        self.precio = precio
+        self.volumen = volumen
+        self.tiempo = tiempo
+        self.currencypair = currencypair
+
 class OHPL(object):
     def __init__(self):
         self.OPEN = 0
@@ -33,6 +40,12 @@ class TimeSerie(object):
     def addBarra(self, barra):
         for i in range(4):
             self.price[i].appendValue(barra.Value(i))
+    def setCur(self, tick):
+        self.price[TP['CLOSE']].setCur(tick.precio)
+        if tick.precio > self.price[TP['HIGH']].Value(0):
+            self.price[TP['HIGH']].setCur(tick.precio)
+        if tick.precio < self.price[TP['LOW']].Value(0):
+            self.price[TP['LOW']].setCur(tick.precio)
     def SClose(self):
         return self.price[TP['CLOSE']]
     def SHigh(self):
@@ -54,8 +67,7 @@ class TimeSerie(object):
         return self.price[tipo].Value(indice)
     def appendBarra(self, barra):
         for i in range(4):
-            self.price[i].appendValue(self.price[i].Value(0))
-            self.price[i].setCur(barra.Value(i))
+            self.price[i].appendValue(barra.Value(i))
     def length(self):
         return self.price[0].length()
     def __str__(self):
@@ -68,17 +80,27 @@ class SerieEscalar(object):
         If a List of float is provided the SerieEscalar is initialized
         to taht value
         It is a general purpose List of scalars"""
-    def __init__(self, Elements=0):
+    def __init__(self, Elements=0, Normalized=True):
         if type(Elements) == int:
             self.Serie=[0.0 for i in range(Elements)]
         elif type(Elements) == list:
             self.Serie=Elements[:]
         else:
              raise TypeError
+        if not Normalized:
+            elem = self.Serie.pop()
+            self.Serie.insert(0, elem)
     def Value(self, indice):
+        ##if indice > 0 or indice < -(len(self.Serie) + 1):
+            ##raise IndexError
         return self.Serie[indice]
     def appendValue(self, valor):
-        self.Serie.append(valor)
+            if len(self.Serie) > 0:
+                self.Serie.append(self.Serie[0])
+                self.Serie[0] = valor
+            else:
+                self.Serie.append(valor)
+                
     def length(self):
         return len(self.Serie)
     def setCur(self, valor):

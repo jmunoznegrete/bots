@@ -5,12 +5,16 @@ from ..TimeS import TimeSerie, TP, Barra, SerieEscalar
 
 class iMV(BasicIndicator):
     def doCalc(self, cursor):
+        if cursor == 1:
+            cursor=0
         return self.serie[0].Value(cursor)
     def doSpecific(self):
         pass
 
 class iMV2(BasicIndicator):
     def doCalc(self, cursor):
+        if cursor == 1:
+            cursor=0
         return self.serie[0].Value(cursor)
     def doSpecific(self):
         pass
@@ -38,13 +42,13 @@ class BasicIndicatorTest(unittest.TestCase):
             
     def test_indicador_mismo_valor(self):
         self.mv = iMV([self.serie,], 'mv')
-        self.assertEqual(str(self.mv), '[0.0, 0.0, 0.0, 5.0, 6.0, 7.0]')
+        self.assertEqual(str(self.mv), '[7.0, 0.0, 0.0, 0.0, 5.0, 6.0]')
 
     def test_update_despues_de_anadir_valor(self):
         self.mv = iMV([self.serie,], 'mv')
         self.serie.appendValue(9.0)
         self.mv.update()
-        self.assertEqual(str(self.mv), '[0.0, 0.0, 0.0, 5.0, 6.0, 7.0, 9.0]')
+        self.assertEqual(str(self.mv), '[9.0, 0.0, 0.0, 0.0, 5.0, 6.0, 7.0]')
 
     def test_devolver_valor_etiqueta_ToIndicator(self):
         self.mv = iMV([self.serie,], 'mv')
