@@ -64,6 +64,14 @@ class SerieEscalarTest(unittest.TestCase):
     def test_Not_Almost_Equal_para_dos_SerieEscalar(self):
         self.serie.appendValue(1.304)
         self.assertNotEqual(self.serie, SerieEscalar([1.3, 0.0, 0.0]))
+    def test_devuelve_elemento_dado_el_indice_correcto(self):
+        self.s1 = SerieEscalar([1.0, 2.0, 5.0, 7.0])
+        self.assertEqual(self.s1[-2], 5.0)
+    def test_devuelve_elemento_dado_el_indice_incorrecto(self):
+        self.s1 = SerieEscalar([1.0, 2.0, 5.0, 7.0])
+        with self.assertRaises(IndexError):
+            x = self.s1[2]
+
 
 class TimeSerieTest(unittest.TestCase):
     def setUp(self):
@@ -73,8 +81,10 @@ class TimeSerieTest(unittest.TestCase):
             2.0, 2.0, 1.0, 1.0,
           ]
 
-        self.gbpusd = TimeSerie(Barra(3.0, 4.0, 1.0, 2.0), 'D1')
-        self.eurusd = TimeSerie(Barra(3.0, 4.0, 1.0, 2.0), 'D1')
+        self.gbpusd = TimeSerie('D1')
+        self.eurusd = TimeSerie('D1')
+        self.gbpusd.appendBarra(Barra(3.0, 4.0, 1.0, 2.0))
+        self.eurusd.appendBarra(Barra(3.0, 4.0, 1.0, 2.0))
         for i in range(len(V)/4):
             k = 4 * i
             self.eurusd.appendBarra(Barra(V[k], V[k+1], V[k+2], V[k+3]))
@@ -92,7 +102,7 @@ class TimeSerieTest(unittest.TestCase):
         self.assertEqual(self.eurusd.length(), 4)
 
     def test_valor_de_high(self):
-        self.assertAlmostEqual(self.eurusd.Value(1, TP['HIGH']), 4.0)
+        self.assertAlmostEqual(self.eurusd.Value(-1, TP['HIGH']), 3.0)
 
     def test_str_TimeSerie(self):
         self.assertEqual(str(self.gbpusd), '[3.0][4.0][1.0][2.0]')

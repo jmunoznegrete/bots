@@ -28,9 +28,7 @@ def tearDownModule():
 
 class BasicIndicatorTest(unittest.TestCase):
     def setUp(self):
-        self.serie = SerieEscalar(3)
-        for i in range(3):
-            self.serie.appendValue(float(i+5))
+        self.serie = SerieEscalar([7.0, 0.0, 0.0, 0.0, 5.0, 6.0])
 
     def test_falta_definir_doCalc(self):
         with self.assertRaises(NotImplementedError):
@@ -68,3 +66,9 @@ class BasicIndicatorTest(unittest.TestCase):
 
         self.assertEqual(self.mv.MinData(), 5)
         
+    def test_longitud_indicador(self):
+        self.assertEqual(self.serie.length(), 6)
+
+    def test_valor_de_indicador_en_posicion(self):
+        self.mv = iMV([self.serie,], 'mv')
+        self.assertEqual(self.mv[-2], 5.0)

@@ -65,6 +65,7 @@ class iEMA(BasicIndicator):
         return media 
 
     def doFirstTime(self, cursor):
+        return self.serie[0][cursor - self.offset]
         media = 0.0
         for i in range(self.interval):
             media = media + self.serie[0].Value(cursor - i - self.offset)
@@ -73,6 +74,7 @@ class iEMA(BasicIndicator):
 
 
     def doSpecific(self):
-        self.NumMinData = self.NumMinData - 1
+        self.NumMinData = self.offset
+##        self.NumMinData = self.NumMinData - 1
         self.pending = True
 

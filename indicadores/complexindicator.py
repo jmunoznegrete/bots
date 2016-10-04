@@ -1,23 +1,26 @@
-ActualizaTick = 1
-
 from TimeS import SerieEscalar, TimeSerie, TP
 
-class BasicIndicator(object):
-    """ Base Class to build simple Indicators
+class EscalarIndicator(object):
+    """ Base Class to build derivated Indicators
         serie: is a list of SerieEscalar used as input
-        label: holds the acronym of the indicator
+        label: holds the indicator acronym
         params: is a tuple: the first element is used for moving averages
-        offset: to slip the input serie"""
+            useful for compatibility purposes when calculating MACD i.e.
+        offset: to slip the input serie
+        self.update() updates first the source indicators, then
+        proceed with self update"""
     def __init__(self, serie, label, params=(0,), offset=0):
         self.interval = params[0]
         self.offset = offset
         self.pending = True
         self.NumMinData = 0
-        self.doParams(params, offset)
-        self.doSpecific()
         self.serie = serie
-        self.lista = SerieEscalar(self.NumMinData)
+        self.ListaIntermedios = []
         self.label = label
+        self.doSpecific()
+        self.doParams(params, offset)
+        self.lista = SerieEscalar(self.NumMinData)
+
 
         self.update()
 
@@ -27,6 +30,9 @@ class BasicIndicator(object):
         ## When enough data is available the 0 value is set with 
         ## no data displacement in order to update its value under
         ## any tick arrival
+
+        for indicador in self.ListaIntermedios:
+            indicador.update()
 
         PrimerDato = (self.lista.length() + 1) - self.serie[0].length()
         LimiteDato = self.serie[0].length()
@@ -45,11 +51,12 @@ class BasicIndicator(object):
         ## further review of how to handle self.offset and 
         ## self.interval is required
         ## It must be declared in any new indicator class derived from
-        ## this
-        self.interval = params[0]
-        self.offset = offset
-        self.pending = True
-        self.NumMinData = self.interval + offset
+        ## this. i.e.
+        ## self.interval = params[0]
+        ## self.offset = offset
+        ## self.pending = True
+        ## self.NumMinData = self.interval + offset
+        raise NotImplementedError
 
     def doSpecific(self):
         raise NotImplementedError
@@ -60,9 +67,32 @@ class BasicIndicator(object):
 
     def MinData(self):
         return self.NumMinData
-    def length(self):
-        return self.lista.length()
-    def __getitem__(self, index):
-        return self.lista.Value(index)
     def __str__(self):
         return str(self.lista)
+
+
+
+class VectorIndicator(object):
+    """ Class to group a set of escalar indicators
+        i.e. MACD dictionary will contain three SerieEscalar:
+        MACD, signal and Histogram
+        Input Parameter: Price SerieEscalar
+        self.BuildIndicator() builds a sorted list of indicators
+        """
+    def __init__(self, price):
+        self.price = price
+        self.ListaIndicadores = []
+        self.ListaValues={}
+        self.BuildIndicator()
+        for indicador in self.ListaIndicadores:
+            ListaValues.update(indicador.ToIndicator())
+
+    def update(self):
+        for indicador in self.ListaIndicadores:
+            indicador.update()
+
+    def Value(self):
+        return self.ListaValues
+
+    def BuildIndicator(self, price):
+        raise NotImplemented

@@ -31,12 +31,12 @@ class TimeSerie(object):
         OHLC value bars
         Element 0 holds the current value (last value) of the
         Serie to have same indexing type as mt4"""
-    def __init__(self, barra, tipo):
+    def __init__(self, tipo):
         self.tipo = tipo
         self.price = [
             SerieEscalar(), SerieEscalar(),SerieEscalar(), SerieEscalar()
             ]
-        self.addBarra(barra)
+        ##self.addBarra(barra)
     def addBarra(self, barra):
         for i in range(4):
             self.price[i].appendValue(barra.Value(i))
@@ -91,8 +91,8 @@ class SerieEscalar(object):
             elem = self.Serie.pop()
             self.Serie.insert(0, elem)
     def Value(self, indice):
-        ##if indice > 0 or indice < -(len(self.Serie) + 1):
-            ##raise IndexError
+        if indice > 0 or indice < -(len(self.Serie) + 1):
+            raise IndexError
         return self.Serie[indice]
     def appendValue(self, valor):
             if len(self.Serie) > 0:
@@ -103,18 +103,21 @@ class SerieEscalar(object):
                 
     def length(self):
         return len(self.Serie)
+
     def setCur(self, valor):
         self.Serie[0] = valor
     def __eq__(self, s1):
         equal = True
         if s1.length() != self.length():
             return False
-        for i in range(s1.length()):
+        for i in range(-s1.length()+1, 0):
             if abs(s1.Value(i) -  self.Value(i))> 0.00001:
                 equal = False
                 break
         return equal
             
+    def __getitem__(self, index):
+        return self.Value(index)
     def __str__(self):
         return str(self.Serie)
 
