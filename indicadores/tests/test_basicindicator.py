@@ -20,10 +20,10 @@ class iMV2(BasicIndicator):
         pass
 
 def setUpModule():
-    print "\nInit: Test indicator.py"
+    print "\nInit: basicindicator.py"
 
 def tearDownModule():
-    print "\nFin: Test indicator.py"
+    pass
 
 
 class BasicIndicatorTest(unittest.TestCase):

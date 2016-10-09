@@ -1,5 +1,7 @@
 from TimeS import SerieEscalar, TimeSerie, TP
 
+from basicindicator import ActualizaTick
+
 class EscalarIndicator(object):
     """ Base Class to build derivated Indicators
         serie: is a list of SerieEscalar used as input
@@ -61,12 +63,20 @@ class EscalarIndicator(object):
     def doSpecific(self):
         raise NotImplementedError
 
-    
+    def List(self):
+        return self.lista
     def doCalc(self, cursor):
         raise NotImplementedError
 
+    def length(self):
+        return self.lista.length()
+
     def MinData(self):
         return self.NumMinData
+
+    def __getitem__(self, index):
+        return self.lista[index]
+
     def __str__(self):
         return str(self.lista)
 
@@ -85,7 +95,7 @@ class VectorIndicator(object):
         self.ListaValues={}
         self.BuildIndicator()
         for indicador in self.ListaIndicadores:
-            ListaValues.update(indicador.ToIndicator())
+            self.ListaValues.update(indicador.ToIndicator())
 
     def update(self):
         for indicador in self.ListaIndicadores:
@@ -96,3 +106,9 @@ class VectorIndicator(object):
 
     def BuildIndicator(self, price):
         raise NotImplemented
+
+    def ToIndicator(self):
+        return self.ListaValues 
+
+    def __getitem__(self, charindex):
+        return self.ListaValues[charindex]

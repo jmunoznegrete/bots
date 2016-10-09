@@ -41,6 +41,9 @@ class BasicIndicator(object):
     def ToIndicator(self):
         return {self.label:self.lista}
 
+    def List(self):
+        return self.lista
+
     def doParams(self, params, offset):
         ## further review of how to handle self.offset and 
         ## self.interval is required

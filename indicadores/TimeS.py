@@ -1,8 +1,8 @@
 class Tick(object):
-    def __init__(self, precio, volumen, tiempo, currencypair):
+    def __init__(self, precio, volumen, fechahora, currencypair):
         self.precio = precio
         self.volumen = volumen
-        self.tiempo = tiempo
+        self.fechahora = fechahora
         self.currencypair = currencypair
 
 class OHPL(object):
@@ -33,13 +33,14 @@ class TimeSerie(object):
         Serie to have same indexing type as mt4"""
     def __init__(self, tipo):
         self.tipo = tipo
+        self.fechahora = ''
         self.price = [
             SerieEscalar(), SerieEscalar(),SerieEscalar(), SerieEscalar()
             ]
-        ##self.addBarra(barra)
-    def addBarra(self, barra):
+    def addBarra(self, barra, fechahora=0.0):
         for i in range(4):
             self.price[i].appendValue(barra.Value(i))
+        self.fechahora = fechahora
     def setCur(self, tick):
         self.price[TP['CLOSE']].setCur(tick.precio)
         if tick.precio > self.price[TP['HIGH']].Value(0):
@@ -65,9 +66,10 @@ class TimeSerie(object):
                 ]
     def Value(self, indice, tipo):
         return self.price[tipo].Value(indice)
-    def appendBarra(self, barra):
+    def appendBarra(self, barra, fechahora=0.0):
         for i in range(4):
             self.price[i].appendValue(barra.Value(i))
+        self.fechahora = fechahora
     def length(self):
         return self.price[0].length()
     def __str__(self):

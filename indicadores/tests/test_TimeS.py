@@ -5,7 +5,7 @@ def setUpModule():
     print "\nInit: Test TimeS.py"
 
 def tearDownModule():
-    print "\nFin: Test TimeS.py"
+    pass
 
 
 class BarraTest(unittest.TestCase):

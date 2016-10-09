@@ -17,10 +17,10 @@ class PMerror2(EscalarIndicator):
         pass
         
 def setUpModule():
-    print "\nInit: Test Complex Indicator Superclass"
+    print "\nInit: Test complexindicator.py"
 
-def TearDownModule():
-    print "\nFin: Test Complex Indicator Superclass"
+def tearDownModule():
+    pass
 
 class EscalarIndicatorTest(unittest.TestCase):
     ## Testing Errors when critial functions are not defined
@@ -31,8 +31,8 @@ class EscalarIndicatorTest(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             pmdif = PMerror2([1,2],'PMdif',(0,))
 
-    def test_incompleted(self):
-        """ We have just tested the existence of two functions.
-        Remaining sentences of the class body need to be tested."""
-        raise NotImplementedError, 'ESTE MODULO REQUIERE MAS TESTS'
-            
+##    def test_incompleted(self):
+##        """ We have just tested the existence of two functions.
+##        Remaining sentences of the class body need to be tested."""
+##        raise NotImplementedError, 'ESTE MODULO REQUIERE MAS TESTS'
+##            

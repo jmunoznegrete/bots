@@ -1,13 +1,15 @@
 import unittest
+import os
 
 from ..TimeS import TimeSerie, Barra, TP, SerieEscalar
 from ..iAverages import iSMA, iPM, iEMA
+from bot.loaders.loadPriceIndicator import loadPriceResult
 
 def setUpModule():
     print "\nInit: Test iAverages.py"
 
-def TearDownModule():
-    print "\nFin: Test iAverages.py"
+def tearDownModule():
+    pass
 
 class iSMAtest(unittest.TestCase):
     def setUp(self):
@@ -34,6 +36,10 @@ class iSMAtest(unittest.TestCase):
         sma3 = iSMA( [self.eurusd.SClose(), ], 'SMA 3', (7,), 0)
         self.assertEqual( str(sma3), '[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]')
         
+    def test_SMA_3_elemento_menos1(self):
+        sma3 = iSMA( [self.eurusd.SClose(), ], 'SMA 3', (3,), 1)
+        self.assertAlmostEqual( sma3[-1],  4.0)
+
     
 class iPMtest(unittest.TestCase):
     def setUp(self):
@@ -94,4 +100,22 @@ class iEMAtest(unittest.TestCase):
             SerieEscalar([5.0832, 0.0, 0.0, 5.0, 4.2, 4.12, 4.472])
         ema = iEMA([serie, ], 'EMA', (4,), 2)
         self.assertEqual(ema.ToIndicator()['EMA'], resultado)
+
+    def test_calculo_EMA_12_real(self):
+        filename = os.getcwd() + '//bot//indicadores//tests//Muestra.csv'
+        ## loader = loadPriceResult(filename, numprices, timeframe, column )
+        loader = loadPriceResult(filename, 15, 'D1', 8 )
+
+        Precio = loader.Precio()
+        resultado = loader.Result()
+
+        ema = iEMA([Precio.SClose(), ], 'EMA', (12,), 0)
+
+        self.assertEqual(ema.ToIndicator()['EMA'], resultado)
+    
+    def test_EMA_3_elemento_menos2(self):
+        eurusdClose = SerieEscalar([8.0, 5.0, 3.0, 4.0, 5.0, 6.0, 7.0])
+
+        ema = iEMA ([eurusdClose,], 'EMA', (3,), 0)
+        self.assertAlmostEqual(ema[-2], 5.25)
 
