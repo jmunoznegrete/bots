@@ -19,6 +19,7 @@ class EscalarIndicator(object):
         self.serie = serie
         self.ListaIntermedios = []
         self.label = label
+        self.params = params
         self.doSpecific()
         self.doParams(params, offset)
         self.lista = SerieEscalar(self.NumMinData)
@@ -89,10 +90,11 @@ class VectorIndicator(object):
         Input Parameter: Price SerieEscalar
         self.BuildIndicator() builds a sorted list of indicators
         """
-    def __init__(self, price):
+    def __init__(self, price, params=(0,)):
         self.price = price
         self.ListaIndicadores = []
         self.ListaValues={}
+        self.params = params
         self.BuildIndicator()
         for indicador in self.ListaIndicadores:
             self.ListaValues.update(indicador.ToIndicator())
