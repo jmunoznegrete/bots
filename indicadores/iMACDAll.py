@@ -1,6 +1,6 @@
-from TimeS import SerieEscalar, TimeSerie, TP
-from iAverages import iSMA, iPM, iEMA
-from complexindicator import EscalarIndicator, VectorIndicator
+from .TimeS import SerieEscalar, TimeSerie, TP
+from .iAverages import iSMA, iPM, iEMA
+from .complexindicator import EscalarIndicator, VectorIndicator
 
 class iMACD(EscalarIndicator):
     def doParams(self, params, offset):

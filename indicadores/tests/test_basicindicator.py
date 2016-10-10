@@ -20,7 +20,7 @@ class iMV2(BasicIndicator):
         pass
 
 def setUpModule():
-    print "\nInit: basicindicator.py"
+    print ("\nInit: basicindicator.py")
 
 def tearDownModule():
     pass
@@ -50,7 +50,7 @@ class BasicIndicatorTest(unittest.TestCase):
 
     def test_devolver_valor_etiqueta_ToIndicator(self):
         self.mv = iMV([self.serie,], 'mv')
-        self.assertEqual(self.mv.ToIndicator().keys(), ['mv',])
+        self.assertEqual(list(self.mv.ToIndicator().keys()), ['mv',])
         
     def test_devolver_valor_indicador_ToIndicator(self):
         self.mv = iMV([self.serie,], 'mv')

@@ -5,7 +5,7 @@ from bot.indicadores.TimeS import SerieEscalar, TimeSerie, Barra
 from ..loadPriceIndicator import loadPriceResult
 
 def setUpModule():
-    print "\nInit: Test loadPriceIndicator.py"
+    print ("\nInit: Test loadPriceIndicator.py")
 
 class loadPriceResultTest(unittest.TestCase):
     def setUp(self):

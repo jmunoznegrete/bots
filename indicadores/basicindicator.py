@@ -1,6 +1,6 @@
 ActualizaTick = 1
 
-from TimeS import SerieEscalar, TimeSerie, TP
+from .TimeS import SerieEscalar, TimeSerie, TP
 
 class BasicIndicator(object):
     """ Base Class to build simple Indicators

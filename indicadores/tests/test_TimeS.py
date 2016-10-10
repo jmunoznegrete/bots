@@ -2,7 +2,7 @@ import unittest
 from  ..TimeS import Barra, TimeSerie, SerieEscalar, TP, Tick
 
 def setUpModule():
-    print "\nInit: Test TimeS.py"
+    print ("\nInit: Test TimeS.py")
 
 def tearDownModule():
     pass
@@ -85,7 +85,7 @@ class TimeSerieTest(unittest.TestCase):
         self.eurusd = TimeSerie('D1')
         self.gbpusd.appendBarra(Barra(3.0, 4.0, 1.0, 2.0))
         self.eurusd.appendBarra(Barra(3.0, 4.0, 1.0, 2.0))
-        for i in range(len(V)/4):
+        for i in range(int(len(V)/4)):
             k = 4 * i
             self.eurusd.appendBarra(Barra(V[k], V[k+1], V[k+2], V[k+3]))
 

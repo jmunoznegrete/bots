@@ -6,6 +6,9 @@ from ..TimeS import TimeSerie, SerieEscalar, Barra
 from ..iMACDAll import iMACDSet, iMACD, iSignal, iHistogram
 from ..iAverages import iPM, iSMA, iEMA
 
+def setUpModule():
+    print("\nInit iMACD")
+
 class iMACDSetTest(unittest.TestCase):
 
     def test_calculo_MACD_real(self):

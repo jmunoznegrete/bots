@@ -1,6 +1,6 @@
-from TimeS import SerieEscalar, TimeSerie, TP
-from iAverages import iSMA, iPM
-from complexindicator import EscalarIndicator, VectorIndicator
+from .TimeS import SerieEscalar, TimeSerie, TP
+from .iAverages import iSMA, iPM
+from .complexindicator import EscalarIndicator, VectorIndicator
 
 class iAO(EscalarIndicator):
 

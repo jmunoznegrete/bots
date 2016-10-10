@@ -1,6 +1,6 @@
-from TimeS import SerieEscalar, TimeSerie, TP
+from .TimeS import SerieEscalar, TimeSerie, TP
 
-from basicindicator import ActualizaTick
+from .basicindicator import ActualizaTick
 
 class EscalarIndicator(object):
     """ Base Class to build derivated Indicators

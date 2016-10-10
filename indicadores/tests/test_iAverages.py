@@ -6,7 +6,7 @@ from ..iAverages import iSMA, iPM, iEMA
 from bot.loaders.loadPriceIndicator import loadPriceResult
 
 def setUpModule():
-    print "\nInit: Test iAverages.py"
+    print ("\nInit: Test iAverages.py")
 
 def tearDownModule():
     pass

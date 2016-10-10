@@ -112,8 +112,8 @@ class SerieEscalar(object):
         equal = True
         if s1.length() != self.length():
             return False
-        for i in range(-s1.length()+1, 0):
-            if abs(s1.Value(i) -  self.Value(i))> 0.000001:
+        for i in range(-s1.length()+1, 1):
+            if abs(s1.Value(i) -  self.Value(i))> 0.00001:
                 equal = False
                 break
         return equal

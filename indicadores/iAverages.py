@@ -1,4 +1,4 @@
-from basicindicator import BasicIndicator, ActualizaTick
+from .basicindicator import BasicIndicator, ActualizaTick
 
 class iSMA(BasicIndicator):
     """ SimpleMoving Average """

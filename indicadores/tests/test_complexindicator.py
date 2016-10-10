@@ -17,7 +17,7 @@ class PMerror2(EscalarIndicator):
         pass
         
 def setUpModule():
-    print "\nInit: Test complexindicator.py"
+    print ("\nInit: Test complexindicator.py")
 
 def tearDownModule():
     pass
